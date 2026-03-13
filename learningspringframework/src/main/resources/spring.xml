@@ -1,0 +1,67 @@
+<!-- Bean are the objects which are managed by spring framework-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    <bean id="alien" class="com.learning.springframework.Alien"> 
+    <!-- id is used while accessing the bean via getBean()-->
+    </bean>
+
+    <!--Lets create another bean of same type -->
+    <bean id="alien2" class="com.learning.springframework.Alien">
+    </bean>
+
+    <!--
+    Scope of the bean 
+    - Singleton : Only one object of the bean is created and shared across the application. (default) All the above beans are singleton.
+    - Prototype : A new object of the bean is created every time it is requested from the container.
+    
+     -->
+
+    <bean id = "alien3" class="com.learning.springframework.Alien" scope="prototype">
+    </bean>
+
+    <!-- Setter Injection -->
+    <bean id = "alien4" class="com.learning.springframework.Alien" >
+        <property name="age" value="25"></property> <!--Age is the variable inside the Alien class -->
+        <!-- the age property is injected using setter method. The Alien class should have a setter method for the age property.-->
+        <property name="laptop" ref="lap"/> 
+        <!--ref is used to inject the reference of another bean. The Alien class should have a setter method for the laptop property.-->
+    </bean>
+
+    <bean id = "lap" class="com.learning.springframework.Laptop">
+    </bean>
+
+
+    <!-- Constructor Injection -->
+    <bean id = "alien5" class="com.learning.springframework.Alien" >
+        <constructor-arg name="age" value="30"/>
+        <constructor-arg name="Comp" ref="lap"/>
+    </bean>
+
+
+    <!-- Bean for NewAliens-->
+    <bean id = "alien6" class="com.learning.springframework.NewAlien" >
+        <constructor-arg name="name" value="Rishikesh"/>
+        <constructor-arg name="age" value="27"/>
+        <!-- <constructor-arg name="comp" ref="desktop"/> -->
+        <constructor-arg name="comp" ref="lap"/>
+    </bean>
+
+    <bean id = "alien7" class="com.learning.springframework.NewAlien" autowire="byName"> <!--autowire="byName" will inject the bean with the same name as the property. It will look for comp id of all the beans-->
+        <property name="name" value="Dattaraj"/>
+        <property name="age" value="23"/>
+    </bean>
+
+
+    <bean id = "desktop" class="com.learning.springframework.Desktop" lazy-init="true"> <!--lazy-init="true" will create the object of the bean only when it is requested for the first time.-->
+    </bean>
+    <bean id="comp" class="com.learning.springframework.Laptop"/>
+
+</beans>
+
+
+
